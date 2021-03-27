@@ -9,7 +9,12 @@ export interface EventsService {
   /**
    * Gets events from given period including pagination by offset and limit
    */
-  getEvents(dateFrom: string, dateTo: string, offset: number, limit: number): Promise<{ totalCount: number, events: Event[] }>;
+  getEvents(
+    dateFrom: string,
+    dateTo: string,
+    offset: number,
+    limit: number,
+  ): Promise<{ totalCount: number; events: Event[] }>;
 
   /**
    * Creates event for given period

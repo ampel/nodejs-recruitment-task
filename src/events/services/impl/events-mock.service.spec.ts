@@ -9,14 +9,12 @@ describe('EventsMockService', () => {
     eventsService = new EventsMockService([...EventsMockData]);
   });
 
-
   describe('createEvent()', () => {
     it('is defined of type function', () => {
       expect(eventsService.createEvent).toBeDefined();
       expect(typeof eventsService.createEvent).toBe('function');
     });
   });
-
 
   describe('getEvent()', () => {
     it('is defined of type function', () => {
@@ -25,14 +23,12 @@ describe('EventsMockService', () => {
     });
   });
 
-
   describe('getEvents()', () => {
     it('is defined of type function', () => {
       expect(eventsService.getEvents).toBeDefined();
       expect(typeof eventsService.getEvents).toBe('function');
     });
   });
-
 
   describe('removeEvent()', () => {
     it('is defined of type function', () => {
@@ -41,4 +37,3 @@ describe('EventsMockService', () => {
     });
   });
 });
-
