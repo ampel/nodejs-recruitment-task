@@ -1,4 +1,4 @@
-import { QueryBuilderOperator } from "../enums/query-builder-operator.enum";
+import { QueryBuilderOperator } from '../enums/query-builder-operator.enum';
 
 export interface QueryBuilderService<T> {
   /**
