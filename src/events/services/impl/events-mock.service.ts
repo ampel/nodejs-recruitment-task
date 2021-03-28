@@ -23,7 +23,7 @@ export class EventsMockService implements EventsService {
       return Promise.reject(e);
     }
 
-    const builder = new QueryBuilderArrayService<Event>(this._events);
+    const builder = new QueryBuilderArrayService<Event>([...this._events]);
     builder.whereDate('startDate', QueryBuilderOperator.GTE, dateFrom);
     builder.whereDate('endDate', QueryBuilderOperator.LTE, dateTo);
 
@@ -34,7 +34,7 @@ export class EventsMockService implements EventsService {
   }
 
   getEvent(id: string): Promise<Event> {
-    const builder = new QueryBuilderArrayService<Event>(this._events);
+    const builder = new QueryBuilderArrayService<Event>([...this._events]);
     const event = builder.find('id', id);
 
     if (event === undefined) {
@@ -57,10 +57,15 @@ export class EventsMockService implements EventsService {
     return Promise.resolve(event);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   removeEvent(id: string): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return Promise.resolve({}); // todo: implement method
+    const index = this._events.findIndex((item: Event) => item.id === id);
+
+    if (index < 0) {
+      return Promise.reject(new EventNotFoundError());
+    }
+
+    this._events.splice(index, 1);
+
+    return Promise.resolve();
   }
 }
