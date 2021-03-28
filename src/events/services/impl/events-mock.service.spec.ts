@@ -1,6 +1,7 @@
 import { EventsService } from '../events.service';
 import { EventsMockService } from './events-mock.service';
 import { EventsMockData } from '../../mock-data/event';
+import { DateAfterError } from '../../errors/date-after.error';
 import { DateFormatError } from '../../errors/date-format.error';
 import { PaginationAttributesError } from '../../errors/pagination-attributes.error';
 import { EventNotFoundError } from '../../errors/event-not-found.error';
@@ -98,6 +99,29 @@ describe('EventsMockService', () => {
     it('is defined of type function', () => {
       expect(eventsService.createEvent).toBeDefined();
       expect(typeof eventsService.createEvent).toBe('function');
+    });
+
+    it('is able to create a new event', async () => {
+      const result = await eventsService.createEvent(
+        '2020-01-01T06:00:00.000Z',
+        '2020-01-01T07:00:00.000Z',
+        'Lorem ipsum',
+      );
+      expect(result).toEqual({
+        id: expect.any(String),
+        title: 'Lorem ipsum',
+        startDate: '2020-01-01T06:00:00.000Z',
+        endDate: '2020-01-01T07:00:00.000Z',
+      });
+    });
+
+    it('should return an error when data are invalid', async () => {
+      const result = eventsService.createEvent(
+        '2020-01-01T06:00:00.000Z',
+        '2020-01-01T05:00:00.000Z',
+        'Lorem ipsum',
+      );
+      await expect(result).rejects.toThrow(DateAfterError);
     });
   });
 
