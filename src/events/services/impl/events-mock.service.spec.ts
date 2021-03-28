@@ -113,6 +113,9 @@ describe('EventsMockService', () => {
         startDate: '2020-01-01T06:00:00.000Z',
         endDate: '2020-01-01T07:00:00.000Z',
       });
+
+      const event = await eventsService.getEvent(result.id);
+      expect(event).toEqual(result);
     });
 
     it('should return an error when data are invalid', async () => {
@@ -129,6 +132,25 @@ describe('EventsMockService', () => {
     it('is defined of type function', () => {
       expect(eventsService.removeEvent).toBeDefined();
       expect(typeof eventsService.removeEvent).toBe('function');
+    });
+
+    it('is able to remove an event', async () => {
+      const result = await eventsService.removeEvent(
+        '090677c2-aece-4b94-af8c-9f23e7a23920',
+      );
+      expect(result).toBeUndefined();
+
+      const event = eventsService.getEvent(
+        '8d500910-4e00-4b3f-87cb-a1488ca42c35',
+      );
+      await expect(event).rejects.toThrow(EventNotFoundError);
+    });
+
+    it('should return an error when an element with the given id does not exist', async () => {
+      const result = eventsService.getEvent(
+        '8d500910-4e00-4b3f-87cb-a1488ca42c35',
+      );
+      await expect(result).rejects.toThrow(EventNotFoundError);
     });
   });
 });
