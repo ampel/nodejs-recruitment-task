@@ -1,8 +1,35 @@
-import { EventsService } from '../events.service';
-import { Event } from '../../models/event';
+import { EventsService } from "../events.service";
+import { Event } from "../../models/event";
+import { EventPaginator } from "../../types/event-paginator.type";
+import { EventsValidatorService } from "./events-validator.service";
+import { QueryBuilderArrayService } from "../../../core/services/impl/query-builder-array.service";
+import { QueryBuilderOperator } from "../../../core/enums/query-builder-operator.enum";
 
 export class EventsMockService implements EventsService {
   constructor(private _events: Event[]) {}
+
+  getEvents(
+    dateFrom: string,
+    dateTo: string,
+    offset: number,
+    limit: number,
+  ): Promise<EventPaginator> {
+    try {
+      EventsValidatorService.validateEventsFilters(dateFrom, dateTo);
+      EventsValidatorService.validatePaginationAttributes(offset, limit);
+    } catch (e) {
+      return Promise.reject(e);
+    }
+
+    const builder = new QueryBuilderArrayService<Event>(this._events);
+    builder.whereDate('startDate', QueryBuilderOperator.GTE, dateFrom);
+    builder.whereDate('endDate', QueryBuilderOperator.LTE, dateTo);
+
+    return Promise.resolve({
+      totalCount: builder.count(),
+      events: builder.paginate(offset, limit),
+    });
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   createEvent(dateFrom: string, dateTo: string, title: string): Promise<Event> {
@@ -13,21 +40,6 @@ export class EventsMockService implements EventsService {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getEvent(id: string): Promise<Event> {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return Promise.resolve({}); // todo: implement method
-  }
-
-  getEvents(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    dateFrom: string,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    dateTo: string,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    offset: number,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    limit: number,
-  ): Promise<{ totalCount: number; events: Event[] }> {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     return Promise.resolve({}); // todo: implement method
