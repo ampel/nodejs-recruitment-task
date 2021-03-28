@@ -1,5 +1,5 @@
-import { QueryBuilderOperator } from "../../enums/query-builder-operator.enum";
-import { QueryBuilderService } from "../query-builder.service";
+import { QueryBuilderOperator } from '../../enums/query-builder-operator.enum';
+import { QueryBuilderService } from '../query-builder.service';
 
 export class QueryBuilderArrayService<T>
   implements QueryBuilderService<Array<T>> {

@@ -1,6 +1,6 @@
-import validator from "validator";
-import { DateFormatError } from "../../errors/date-format.error";
-import { PaginationAttributesError } from "../../errors/pagination-attributes.error";
+import validator from 'validator';
+import { DateFormatError } from '../../errors/date-format.error';
+import { PaginationAttributesError } from '../../errors/pagination-attributes.error';
 
 export class EventsValidatorService {
   static validateEventsFilters(dateFrom: string, dateTo: string): boolean {

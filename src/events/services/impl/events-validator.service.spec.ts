@@ -1,22 +1,30 @@
-import { EventsValidatorService } from "./events-validator.service";
-import { DateFormatError } from "../../errors/date-format.error";
-import { PaginationAttributesError } from "../../errors/pagination-attributes.error";
+import { EventsValidatorService } from './events-validator.service';
+import { DateFormatError } from '../../errors/date-format.error';
+import { PaginationAttributesError } from '../../errors/pagination-attributes.error';
 
 describe('EventsValidatorService', () => {
   describe('validateEventsFilters()', () => {
     it('is defined of type function', () => {
       expect(EventsValidatorService.validateEventsFilters).toBeDefined();
-      expect(typeof EventsValidatorService.validateEventsFilters).toBe('function');
+      expect(typeof EventsValidatorService.validateEventsFilters).toBe(
+        'function',
+      );
     });
 
     it('should not return an error when the dates have the ISO8601 format', () => {
-      const result = EventsValidatorService.validateEventsFilters('2020-01-03T15:00:00.000Z', '2020-01-04T15:00:00.000Z');
+      const result = EventsValidatorService.validateEventsFilters(
+        '2020-01-03T15:00:00.000Z',
+        '2020-01-04T15:00:00.000Z',
+      );
       expect(result).toBeTruthy();
     });
 
     it('should return an error when the dateFrom is not compatible with the ISO8601 format', () => {
       try {
-        EventsValidatorService.validateEventsFilters('2020-01-03 15:00', '2020-01-04T15:00:00.000Z');
+        EventsValidatorService.validateEventsFilters(
+          '2020-01-03 15:00',
+          '2020-01-04T15:00:00.000Z',
+        );
       } catch (e) {
         expect(e).toBeInstanceOf(DateFormatError);
       }
@@ -24,7 +32,10 @@ describe('EventsValidatorService', () => {
 
     it('should return an error when the dateTo is not compatible with the ISO8601 format', () => {
       try {
-        EventsValidatorService.validateEventsFilters('2020-01-03T15:00:00.000Z', '2020-01-04 15:00');
+        EventsValidatorService.validateEventsFilters(
+          '2020-01-03T15:00:00.000Z',
+          '2020-01-04 15:00',
+        );
       } catch (e) {
         expect(e).toBeInstanceOf(DateFormatError);
       }
@@ -38,7 +49,9 @@ describe('EventsValidatorService', () => {
     });
 
     it('should not return an error when the value has the ISO8601 format', () => {
-      const result = EventsValidatorService.validateDate('2020-01-03T15:00:00.000Z');
+      const result = EventsValidatorService.validateDate(
+        '2020-01-03T15:00:00.000Z',
+      );
       expect(result).toBeTruthy();
     });
 
@@ -59,7 +72,9 @@ describe('EventsValidatorService', () => {
   describe('validatePaginationAttributes()', () => {
     it('is defined of type function', () => {
       expect(EventsValidatorService.validatePaginationAttributes).toBeDefined();
-      expect(typeof EventsValidatorService.validatePaginationAttributes).toBe('function');
+      expect(typeof EventsValidatorService.validatePaginationAttributes).toBe(
+        'function',
+      );
     });
 
     it('should not return an error when the offset and limit parameters are greater than 0', () => {

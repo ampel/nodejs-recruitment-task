@@ -1,10 +1,10 @@
-import { QueryBuilderArrayService } from "./query-builder-array.service";
-import { QueryBuilderOperator } from "../../enums/query-builder-operator.enum";
+import { QueryBuilderArrayService } from './query-builder-array.service';
+import { QueryBuilderOperator } from '../../enums/query-builder-operator.enum';
 
 type Item = {
   id: number;
   price: number;
-}
+};
 
 describe('QueryBuilderArrayService', () => {
   let queryBuilderService: QueryBuilderArrayService<Item>;
@@ -47,13 +47,23 @@ describe('QueryBuilderArrayService', () => {
     });
 
     it('is able to filter elements with value equal to the given value', () => {
-      const result = queryBuilderService.where('price', QueryBuilderOperator.EQ, 1400);
+      const result = queryBuilderService.where(
+        'price',
+        QueryBuilderOperator.EQ,
+        1400,
+      );
       expect(result.all()).toHaveLength(1);
-      expect(result.all()).toEqual([{ id: 103, price: 1400, date: '2020-01-03T15:00:00.000Z' }]);
+      expect(result.all()).toEqual([
+        { id: 103, price: 1400, date: '2020-01-03T15:00:00.000Z' },
+      ]);
     });
 
     it('is able to filter elements with value greater than the given value', () => {
-      const result = queryBuilderService.where('price', QueryBuilderOperator.GT, 1400);
+      const result = queryBuilderService.where(
+        'price',
+        QueryBuilderOperator.GT,
+        1400,
+      );
       expect(result.all()).toHaveLength(2);
       expect(result.all()).toEqual([
         { id: 104, price: 1600, date: '2020-01-04T18:00:00.000Z' },
@@ -62,7 +72,11 @@ describe('QueryBuilderArrayService', () => {
     });
 
     it('is able to filter elements with value greater than or equal to the given value', () => {
-      const result = queryBuilderService.where('price', QueryBuilderOperator.GTE, 1400);
+      const result = queryBuilderService.where(
+        'price',
+        QueryBuilderOperator.GTE,
+        1400,
+      );
       expect(result.all()).toHaveLength(3);
       expect(result.all()).toEqual([
         { id: 103, price: 1400, date: '2020-01-03T15:00:00.000Z' },
@@ -72,7 +86,11 @@ describe('QueryBuilderArrayService', () => {
     });
 
     it('is able to filter elements with value less than the given value', () => {
-      const result = queryBuilderService.where('price', QueryBuilderOperator.LT, 1400);
+      const result = queryBuilderService.where(
+        'price',
+        QueryBuilderOperator.LT,
+        1400,
+      );
       expect(result.all()).toHaveLength(2);
       expect(result.all()).toEqual([
         { id: 101, price: 1000, date: '2020-01-01T09:00:00.000Z' },
@@ -81,7 +99,11 @@ describe('QueryBuilderArrayService', () => {
     });
 
     it('is able to filter elements with value less than or equal to the given value', () => {
-      const result = queryBuilderService.where('price', QueryBuilderOperator.LTE, 1400);
+      const result = queryBuilderService.where(
+        'price',
+        QueryBuilderOperator.LTE,
+        1400,
+      );
       expect(result.all()).toHaveLength(3);
       expect(result.all()).toEqual([
         { id: 101, price: 1000, date: '2020-01-01T09:00:00.000Z' },
@@ -98,13 +120,23 @@ describe('QueryBuilderArrayService', () => {
     });
 
     it('is able to filter elements with value equal to the given value', () => {
-      const result = queryBuilderService.whereDate('date', QueryBuilderOperator.EQ, 'Fri, 03 Jan 2020 15:00:00 GMT');
+      const result = queryBuilderService.whereDate(
+        'date',
+        QueryBuilderOperator.EQ,
+        'Fri, 03 Jan 2020 15:00:00 GMT',
+      );
       expect(result.all()).toHaveLength(1);
-      expect(result.all()).toEqual([{ id: 103, price: 1400, date: '2020-01-03T15:00:00.000Z' }]);
+      expect(result.all()).toEqual([
+        { id: 103, price: 1400, date: '2020-01-03T15:00:00.000Z' },
+      ]);
     });
 
     it('is able to filter elements with value greater than the given value', () => {
-      const result = queryBuilderService.whereDate('date', QueryBuilderOperator.GT, 'Fri, 03 Jan 2020 15:00:00 GMT');
+      const result = queryBuilderService.whereDate(
+        'date',
+        QueryBuilderOperator.GT,
+        'Fri, 03 Jan 2020 15:00:00 GMT',
+      );
       expect(result.all()).toHaveLength(2);
       expect(result.all()).toEqual([
         { id: 104, price: 1600, date: '2020-01-04T18:00:00.000Z' },
@@ -113,7 +145,11 @@ describe('QueryBuilderArrayService', () => {
     });
 
     it('is able to filter elements with value greater than or equal to the given value', () => {
-      const result = queryBuilderService.whereDate('date', QueryBuilderOperator.GTE, 'Fri, 03 Jan 2020 15:00:00 GMT');
+      const result = queryBuilderService.whereDate(
+        'date',
+        QueryBuilderOperator.GTE,
+        'Fri, 03 Jan 2020 15:00:00 GMT',
+      );
       expect(result.all()).toHaveLength(3);
       expect(result.all()).toEqual([
         { id: 103, price: 1400, date: '2020-01-03T15:00:00.000Z' },
@@ -123,7 +159,11 @@ describe('QueryBuilderArrayService', () => {
     });
 
     it('is able to filter elements with value less than the given value', () => {
-      const result = queryBuilderService.whereDate('date', QueryBuilderOperator.LT, 'Fri, 03 Jan 2020 15:00:00 GMT');
+      const result = queryBuilderService.whereDate(
+        'date',
+        QueryBuilderOperator.LT,
+        'Fri, 03 Jan 2020 15:00:00 GMT',
+      );
       expect(result.all()).toHaveLength(2);
       expect(result.all()).toEqual([
         { id: 101, price: 1000, date: '2020-01-01T09:00:00.000Z' },
@@ -132,7 +172,11 @@ describe('QueryBuilderArrayService', () => {
     });
 
     it('is able to filter elements with value less than or equal to the given value', () => {
-      const result = queryBuilderService.whereDate('date', QueryBuilderOperator.LTE, 'Fri, 03 Jan 2020 15:00:00 GMT');
+      const result = queryBuilderService.whereDate(
+        'date',
+        QueryBuilderOperator.LTE,
+        'Fri, 03 Jan 2020 15:00:00 GMT',
+      );
       expect(result.all()).toHaveLength(3);
       expect(result.all()).toEqual([
         { id: 101, price: 1000, date: '2020-01-01T09:00:00.000Z' },
