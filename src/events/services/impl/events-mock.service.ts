@@ -5,6 +5,7 @@ import { EventsValidatorService } from './events-validator.service';
 import { QueryBuilderArrayService } from '../../../core/services/impl/query-builder-array.service';
 import { QueryBuilderOperator } from '../../../core/enums/query-builder-operator.enum';
 import { EventNotFoundError } from '../../errors/event-not-found.error';
+import { EventMapper } from '../../mappers/event.mapper';
 
 export class EventsMockService implements EventsService {
   constructor(private _events: Event[]) {}
@@ -43,11 +44,17 @@ export class EventsMockService implements EventsService {
     return Promise.resolve(event);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   createEvent(dateFrom: string, dateTo: string, title: string): Promise<Event> {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return Promise.resolve({}); // todo: implement method
+    try {
+      EventsValidatorService.validateEventForm(this._events, dateFrom, dateTo);
+    } catch (e) {
+      return Promise.reject(e);
+    }
+
+    const event = EventMapper.toDomain(title, dateFrom, dateTo);
+    this._events.push(event);
+
+    return Promise.resolve(event);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
