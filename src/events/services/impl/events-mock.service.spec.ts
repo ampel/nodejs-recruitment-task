@@ -1,8 +1,9 @@
 import { EventsService } from '../events.service';
 import { EventsMockService } from './events-mock.service';
 import { EventsMockData } from '../../mock-data/event';
-import { DateFormatError } from "../../errors/date-format.error";
-import { PaginationAttributesError } from "../../errors/pagination-attributes.error";
+import { DateFormatError } from '../../errors/date-format.error';
+import { PaginationAttributesError } from '../../errors/pagination-attributes.error';
+import { EventNotFoundError } from '../../errors/event-not-found.error';
 
 describe('EventsMockService', () => {
   let eventsService: EventsService;
@@ -67,17 +68,36 @@ describe('EventsMockService', () => {
     });
   });
 
-  describe('createEvent()', () => {
-    it('is defined of type function', () => {
-      expect(eventsService.createEvent).toBeDefined();
-      expect(typeof eventsService.createEvent).toBe('function');
-    });
-  });
-
   describe('getEvent()', () => {
     it('is defined of type function', () => {
       expect(eventsService.getEvent).toBeDefined();
       expect(typeof eventsService.getEvent).toBe('function');
+    });
+
+    it('is able to find an element with the given id', async () => {
+      const result = await eventsService.getEvent(
+        '090677c2-aece-4b94-af8c-9f23e7a23920',
+      );
+      expect(result).toEqual({
+        id: '090677c2-aece-4b94-af8c-9f23e7a23920',
+        title: 'Pearl Living',
+        startDate: '2020-01-02T09:00:00.000Z',
+        endDate: '2020-01-02T11:00:00.000Z',
+      });
+    });
+
+    it('should return an error when an element with the given id does not exist', async () => {
+      const result = eventsService.getEvent(
+        '8d500910-4e00-4b3f-87cb-a1488ca42c35',
+      );
+      await expect(result).rejects.toThrow(EventNotFoundError);
+    });
+  });
+
+  describe('createEvent()', () => {
+    it('is defined of type function', () => {
+      expect(eventsService.createEvent).toBeDefined();
+      expect(typeof eventsService.createEvent).toBe('function');
     });
   });
 

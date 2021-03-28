@@ -1,9 +1,10 @@
-import { EventsService } from "../events.service";
-import { Event } from "../../models/event";
-import { EventPaginator } from "../../types/event-paginator.type";
-import { EventsValidatorService } from "./events-validator.service";
-import { QueryBuilderArrayService } from "../../../core/services/impl/query-builder-array.service";
-import { QueryBuilderOperator } from "../../../core/enums/query-builder-operator.enum";
+import { EventsService } from '../events.service';
+import { Event } from '../../models/event';
+import { EventPaginator } from '../../types/event-paginator.type';
+import { EventsValidatorService } from './events-validator.service';
+import { QueryBuilderArrayService } from '../../../core/services/impl/query-builder-array.service';
+import { QueryBuilderOperator } from '../../../core/enums/query-builder-operator.enum';
+import { EventNotFoundError } from '../../errors/event-not-found.error';
 
 export class EventsMockService implements EventsService {
   constructor(private _events: Event[]) {}
@@ -31,15 +32,19 @@ export class EventsMockService implements EventsService {
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  createEvent(dateFrom: string, dateTo: string, title: string): Promise<Event> {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return Promise.resolve({}); // todo: implement method
+  getEvent(id: string): Promise<Event> {
+    const builder = new QueryBuilderArrayService<Event>(this._events);
+    const event = builder.find('id', id);
+
+    if (event === undefined) {
+      return Promise.reject(new EventNotFoundError());
+    }
+
+    return Promise.resolve(event);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getEvent(id: string): Promise<Event> {
+  createEvent(dateFrom: string, dateTo: string, title: string): Promise<Event> {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     return Promise.resolve({}); // todo: implement method
